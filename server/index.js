@@ -4,10 +4,28 @@ var _ = require("lodash");
 
 var app = new express();
 
+function myErrorMiddleWare(err, req, res, next) {
+    if (err) {
+        res.staus(500).send(err);
+    }
+}
 
 // app.use(express.static('/client'));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+
+
+app.param("id", function (req, res, next, id) {
+    var todo = _.find(todos, { id: id });
+
+    if (todo) {
+        req.todo = todo;
+        next();
+    } else {
+        res.send();
+    }
+});
+
 
 var todos = []
 var id = 0;
@@ -17,8 +35,7 @@ app.get("/api/todos", function (req, res) {
 });
 
 app.get("/api/todo/:id", function (req, res) {
-    var todo = _.find(todos, req.params.id);
-    res.json(todo || {});
+    res.json(req.todo || {});
 });
 
 app.post("/api/todo", function (req, res) {
@@ -37,7 +54,8 @@ app.put("/api/todo/:id", function (req, res) {
         delete update.id;
     }
 
-    var todoID = _.findIndex(todos, { id: req.params.id });
+    // var todoID = _.findIndex(todos, { id: req.params.id });
+    var todoID = req.todo ? req.todo.id : -1;
     if (!todos[todoID]) {
         res.send();
     } else {
@@ -47,7 +65,8 @@ app.put("/api/todo/:id", function (req, res) {
 });
 
 app.delete("/api/todo/:id", function (req, res) {
-    var todoID = _.findIndex(todos, { id: req.params.id });
+    //var todoID = _.findIndex(todos, { id: req.params.id });
+    var todoID = req.todo ? req.todo.id : -1;
     if (!todos[todoID]) {
         res.send();
     } else {
@@ -55,7 +74,9 @@ app.delete("/api/todo/:id", function (req, res) {
         todos.splice(deleteTodo, 1);
         res.send(deleteTodo);
     }
-}); 
+});
+
+app.use(myErrorMiddleWare);
 
 var port = 3001;
 
