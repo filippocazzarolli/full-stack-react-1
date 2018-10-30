@@ -22,7 +22,7 @@ class TodoPage extends Component {
     }
 
     loadTodos() {
-        fetch('/api/todos')
+        fetch('/api/todo')
             .then(res => res.json())
             .then(todos => this.setState({ todos }))
             .catch(err => console.error(err))
