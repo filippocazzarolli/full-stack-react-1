@@ -1,7 +1,7 @@
 var express = require('express');
 var app = new express();
 var api = require('./api/api');
-var err = require('./middleware/err');
+// var err = require('./middleware/err');
 
 require('./middleware/appMiddleware')(app);
 
