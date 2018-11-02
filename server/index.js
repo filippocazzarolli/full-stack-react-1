@@ -1,6 +1,6 @@
-var config = require('./config/config');
-var app = require('./server');
-var logger = require('./util/logger');
+var config = require("./src/config/config");
+var app = require("./src/server");
+var logger = require("./src/util/logger");
 
 app.listen(config.port);
-logger.log('listening on http://localhost:', config.port);
+logger.log("listening on http://localhost:" + config.port);

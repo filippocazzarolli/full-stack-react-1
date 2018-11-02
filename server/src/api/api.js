@@ -1,7 +1,8 @@
-var router = require('express').Router();
+var router = require("express").Router();
 
-router.use('/todo', require('./todo/todoRouter'));
-router.use('/user', require('./todo/userRouter'));
-router.use('/post', require('./post/postRouter'));
+router.use("/todo", require("./todo/todoRouter"));
+router.use("/users", require("./user/userRouter"));
+router.use("/categories", require("./category/categoryRouter"));
+router.use("/posts", require("./post/postRouter"));
 
 module.exports = router;
